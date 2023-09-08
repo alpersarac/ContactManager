@@ -1,4 +1,5 @@
-﻿using ContactManager.Models.Models;
+﻿using ContactManager.Models.DTO;
+using ContactManager.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace ContactManager.DataAccess.Repository.IRepository
     public interface IContactManagerRepository : IRepository<Contact>
     {
         //any custom method
+        Task<bool> Update(ContactDTO obj, int id);
     }
 }

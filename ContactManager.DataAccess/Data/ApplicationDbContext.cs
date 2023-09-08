@@ -14,6 +14,6 @@ namespace ContactManager.DataAccess.Data
         {
 
         }
-        DbSet<Contact> contacts { get; set; }
+        public DbSet<Contact> contacts { get; set; }
     }
 }

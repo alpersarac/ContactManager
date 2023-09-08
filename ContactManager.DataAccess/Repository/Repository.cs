@@ -27,14 +27,16 @@ namespace ContactManager.DataAccess.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var entity = await dbSet.FindAsync(id);
             if (entity != null)
             {
                 dbSet.Remove(entity);
                 await _db.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         public async Task<T> GetById(int id)
