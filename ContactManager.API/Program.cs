@@ -21,30 +21,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
     ));
 //Unit of work dependency injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//JWT implementation
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidIssuer = "YourIssuer", // Replace with your issuer
-        ValidateAudience = true,
-        ValidAudience = "YourAudience", // Replace with your audience
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("YourSecretKey")) // Replace with your secret key
-    };
-});
-
-
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
