@@ -4,10 +4,13 @@ using ContactManager.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace ContactManager.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ContactManagerController : ControllerBase
@@ -69,6 +72,6 @@ namespace ContactManager.API.Controllers
                 return BadRequest("Failed to update contact");
             }
         }
-
+        
     }
 }
