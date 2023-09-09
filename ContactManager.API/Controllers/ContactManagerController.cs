@@ -36,7 +36,7 @@ namespace ContactManager.API.Controllers
             Contact contact = await _unitOfWork.ContactManager.GetById(id);
             if (contact == null)
             {
-                 await _contactManagerLoggerRepository.AddLog(LogImportance.Information, "Contact could not found.");
+                await _contactManagerLoggerRepository.AddLog(LogImportance.Information, "Contact could not found.");
                 return NotFound("Contact could not found.");
             }
             return Ok(contact);
@@ -52,7 +52,7 @@ namespace ContactManager.API.Controllers
                 {
                     return Ok(contact);
                 }
-                
+
                 return BadRequest("Email is in use, it must be unique email address.");
 
             }
@@ -67,7 +67,7 @@ namespace ContactManager.API.Controllers
             {
                 return Ok("Contact deleted successfully");
             }
-             await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Contact could not deleted.");
+            await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Contact could not deleted.");
             return BadRequest("Contact could not deleted.");
         }
         [HttpPut("{id}")]
@@ -78,7 +78,7 @@ namespace ContactManager.API.Controllers
             {
                 return Ok("Contact updated successfully");
             }
-             await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Failed to update contact.");
+            await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Failed to update contact.");
             return BadRequest("Failed to update contact");
 
         }
