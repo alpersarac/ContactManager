@@ -32,6 +32,7 @@ namespace ContactManager.DataAccess.Repository
                 contact.firstName = obj.firstName;
                 contact.lastName = obj.lastName;
                 contact.salutation= obj.salutation;
+                contact.lastChangeTimestamp = DateTime.UtcNow;
                 await _db.SaveChangesAsync();
                 return true;
             }

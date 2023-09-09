@@ -21,10 +21,19 @@ namespace ContactManager.DataAccess.Repository
             this.dbSet = db.Set<T>();
         }
 
-        public async Task Create(T obj)
+        public async Task<bool> Create(T obj)
         {
-            dbSet.AddAsync(obj);
-            await _db.SaveChangesAsync();
+            try
+            {
+                await dbSet.AddAsync(obj);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
 
         public async Task<bool> Delete(int id)

@@ -1,4 +1,5 @@
 ﻿using ContactManager.DataAccess.Repository.IRepository;
+using ContactManager.Logger.IRepository;
 using ContactManager.Models.DTO;
 using ContactManager.Models.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,9 +17,11 @@ namespace ContactManager.API.Controllers
     public class ContactManagerController : ControllerBase
     {
         IUnitOfWork _unitOfWork;
-        public ContactManagerController(IUnitOfWork unitOfWork) 
-        { 
+        IContactManagerLoggerRepository _contactManagerLoggerRepository;
+        public ContactManagerController(IUnitOfWork unitOfWork, IContactManagerLoggerRepository contactManagerLoggerRepository)
+        {
             _unitOfWork = unitOfWork;
+            _contactManagerLoggerRepository = contactManagerLoggerRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllContacts()
@@ -31,8 +34,9 @@ namespace ContactManager.API.Controllers
         public async Task<IActionResult> GetContactById(int id)
         {
             Contact contact = await _unitOfWork.ContactManager.GetById(id);
-            if (contact==null)
+            if (contact == null)
             {
+                 await _contactManagerLoggerRepository.AddLog(LogImportance.Information, "Contact could not found.");
                 return NotFound("Contact could not found.");
             }
             return Ok(contact);
@@ -43,8 +47,14 @@ namespace ContactManager.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _unitOfWork.ContactManager.Create(contact);
-                return Ok(contact);
+                bool result = await _unitOfWork.ContactManager.Create(contact);
+                if (result)
+                {
+                    return Ok(contact);
+                }
+                
+                return BadRequest("Email is in use, it must be unique email address.");
+
             }
             return BadRequest("Contact could not created.");
         }
@@ -55,23 +65,23 @@ namespace ContactManager.API.Controllers
 
             if (result)
             {
-                return Ok();
+                return Ok("Contact deleted successfully");
             }
-            return BadRequest("Contact could not updated.");
+             await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Contact could not deleted.");
+            return BadRequest("Contact could not deleted.");
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateContact([FromBody] ContactDTO contactDTO, int id)
         {
-            bool result = await _unitOfWork.ContactManager.Update(contactDTO,id);
+            bool result = await _unitOfWork.ContactManager.Update(contactDTO, id);
             if (result)
             {
                 return Ok("Contact updated successfully");
             }
-            else
-            {
-                return BadRequest("Failed to update contact");
-            }
+             await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Failed to update contact.");
+            return BadRequest("Failed to update contact");
+
         }
-        
+
     }
 }

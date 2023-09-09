@@ -9,7 +9,8 @@ namespace ContactManager.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        Task Create(T obj);
+        //generic methods
+        Task<bool> Create(T obj);
         
         Task<bool> Delete(int id);
         Task<T> GetById(int id);

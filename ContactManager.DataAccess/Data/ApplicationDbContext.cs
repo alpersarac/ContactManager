@@ -14,6 +14,16 @@ namespace ContactManager.DataAccess.Data
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+            modelBuilder.Entity<Contact>()
+                .HasIndex(c => c.email)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
+        }
         public DbSet<Contact> contacts { get; set; }
+        public DbSet<ContactManagerLogger> contactManagerLogger { get; set; }
     }
 }

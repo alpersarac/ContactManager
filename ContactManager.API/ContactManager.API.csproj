@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ContactManager.DataAccess\ContactManager.DataAccess.csproj" />
+    <ProjectReference Include="..\ContactManager.Logger\ContactManager.Logger.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,11 +18,46 @@ namespace ContactManager.Models.Models
         [Required(ErrorMessage = "First Name must not be empty")]
         [MinLength(3, ErrorMessage = "First Name must be longer than 2 characters")]
         public string firstName { get; set; }
+        [Required(ErrorMessage = "Last Name must not be empty")]
+        [MinLength(3, ErrorMessage = "Last Name must be longer than 2 characters")]
         public string lastName { get; set; }
-        public string displayName { get; set; }
-        public DateTime? birthDate { get; set; }
+        public string _displayName;
+        public string displayName 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_displayName))
+                {
+                    return $"{salutation} {firstName} {lastName}";
+                }
+                return _displayName ;
+            }
+            set
+            {
+                _displayName = value ;
+            }
+
+        }
+        private DateTime? _birthDate;
+        public DateTime? birthDate
+        {
+            get
+            {
+                if (!_birthDate.HasValue)
+                {
+                    return null;
+                }
+                return _birthDate;
+            }
+            set
+            {
+                _birthDate = value;
+            }
+        }
+
         public DateTime creationTimestamp { get; set; }
         public DateTime lastChangeTimestamp { get; set; }
+        private bool _notifyHasBirthdaySoon=false;
         public bool notifyHasBirthdaySoon
         {
             get
@@ -31,14 +66,20 @@ namespace ContactManager.Models.Models
                 {
                     DateTime today = DateTime.Now;
                     DateTime birthday = birthDate.Value;
-
-                    if (birthday.AddDays(-today.Day).Day>14)
+                    DateTime birthdayForCurrentYear = new DateTime(today.Year, birthDate.Value.Month, birthDate.Value.Day);
+                    var timeSpan = birthdayForCurrentYear - today;
+                    if (timeSpan.Days <= 14 && timeSpan.Days >= 0)
                     {
                         return true;
                     }
                 }
                 return false;
             }
+            set
+            {
+                _notifyHasBirthdaySoon = false;
+            }
+
         }
         [Required(ErrorMessage ="Email must not be empty")]
         [EmailAddress(ErrorMessage ="Invalid email address")]

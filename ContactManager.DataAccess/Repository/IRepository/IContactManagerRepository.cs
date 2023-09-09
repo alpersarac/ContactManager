@@ -10,7 +10,7 @@ namespace ContactManager.DataAccess.Repository.IRepository
 {
     public interface IContactManagerRepository : IRepository<Contact>
     {
-        //any custom method
+        //any specific method for contact manager
         Task<bool> Update(ContactDTO obj, int id);
     }
 }
