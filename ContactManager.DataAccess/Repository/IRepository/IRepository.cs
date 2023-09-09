@@ -11,7 +11,6 @@ namespace ContactManager.DataAccess.Repository.IRepository
     {
         //generic methods
         Task<bool> Create(T obj);
-        
         Task<bool> Delete(int id);
         Task<T> GetById(int id);
         Task<List<T>> GetAll();

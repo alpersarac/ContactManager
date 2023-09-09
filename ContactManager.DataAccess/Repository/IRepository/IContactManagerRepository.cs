@@ -12,5 +12,6 @@ namespace ContactManager.DataAccess.Repository.IRepository
     {
         //any specific method for contact manager
         Task<bool> Update(ContactDTO obj, int id);
+        Task<bool> CheckExistingEmail(string email);
     }
 }

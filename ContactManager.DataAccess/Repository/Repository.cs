@@ -57,7 +57,6 @@ namespace ContactManager.DataAccess.Repository
         {
             dbSet.Update(obj);
             await _db.SaveChangesAsync();
-
         }
 
         public async Task<List<T>> GetAll()

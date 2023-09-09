@@ -45,15 +45,21 @@ namespace ContactManager.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateContact([FromBody] Contact contact)
         {
+            
             if (ModelState.IsValid)
             {
+                bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contact.email);
+                if (isEmailExists) 
+                {
+                    return BadRequest("Email is in use, it must be unique email address.");
+                }
                 bool result = await _unitOfWork.ContactManager.Create(contact);
                 if (result)
                 {
                     return Ok(contact);
                 }
 
-                return BadRequest("Email is in use, it must be unique email address.");
+                return BadRequest();
 
             }
             return BadRequest("Contact could not created.");
@@ -73,6 +79,12 @@ namespace ContactManager.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateContact([FromBody] ContactDTO contactDTO, int id)
         {
+            bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contactDTO.email);
+            if (isEmailExists)
+            {
+                return BadRequest("Email is in use, it must be unique email address.");
+            }
+
             bool result = await _unitOfWork.ContactManager.Update(contactDTO, id);
             if (result)
             {
