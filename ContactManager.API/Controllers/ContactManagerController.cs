@@ -51,6 +51,7 @@ namespace ContactManager.API.Controllers
                 bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contact.email);
                 if (isEmailExists) 
                 {
+                    await _contactManagerLoggerRepository.AddLog(LogImportance.Warning, "Email is in use.");
                     return BadRequest("Email is in use, it must be unique email address.");
                 }
                 bool result = await _unitOfWork.ContactManager.Create(contact);
@@ -82,6 +83,7 @@ namespace ContactManager.API.Controllers
             bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contactDTO.email);
             if (isEmailExists)
             {
+                await _contactManagerLoggerRepository.AddLog(LogImportance.Warning, "Email is in use.");
                 return BadRequest("Email is in use, it must be unique email address.");
             }
 
@@ -90,7 +92,6 @@ namespace ContactManager.API.Controllers
             {
                 return Ok("Contact updated successfully");
             }
-            await _contactManagerLoggerRepository.AddLog(LogImportance.Error, "Failed to update contact.");
             return BadRequest("Failed to update contact");
 
         }
