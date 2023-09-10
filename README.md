@@ -44,9 +44,7 @@ Before you begin, make sure you have the following:
 
 ## Testing
 
-You can test the API using Swagger. Access the Swagger interface at the following URL:
-
-[Swagger](https://github.com/alpersarac/ContactManager)
+You can test the API using Swagger.
 
 ## Contact
 
