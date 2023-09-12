@@ -20,11 +20,46 @@ namespace ContactManager.DataAccess.Repository
             _db = db;
         }
 
-        public async Task<bool> CheckExistingEmail(string email)
+        public async Task<bool> CheckExistingEmailForCreation(string email)
         {
             bool isEmailExists = _db.contacts.Any(x => x.email.Equals(email));
 
             return isEmailExists;
+        }
+
+        public async Task<bool> CheckExistingEmailForUpdate(string email,int id)
+        {
+            bool isEmailExists = _db.contacts.Any(x => x.email.Equals(email)&& x.Id!=id);
+
+            return isEmailExists;
+        }
+
+        public async Task<bool> Create(ContactDTO obj)
+        {
+            try
+            {
+                Contact contact = new Contact
+                {
+                    salutation = obj.salutation,
+                    firstName = obj.firstName,
+                    lastName = obj.lastName,
+                    displayName = obj.displayName,
+                    birthDate = obj.birthDate,
+                    phoneNumber = obj.phoneNumber,
+                    email = obj.email,
+                    creationTimestamp = DateTime.UtcNow,
+                    lastChangeTimestamp = DateTime.UtcNow
+                };
+                _db.contacts.Add(contact);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            
         }
 
         public async Task<bool> Update(ContactDTO obj, int id)

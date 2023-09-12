@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
     ));
 //Unit of work dependency injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//Logger dependency injection
 builder.Services.AddScoped<IContactManagerLoggerRepository, ContactManagerLoggerRepository>();
 
 var app = builder.Build();

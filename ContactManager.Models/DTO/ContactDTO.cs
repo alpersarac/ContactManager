@@ -10,16 +10,19 @@ namespace ContactManager.Models.DTO
 {
     public class ContactDTO
     {
-        public int id { get; set; }
+
         [Required(ErrorMessage = "Salutation must not be empty")]
         [MinLength(3, ErrorMessage = "Salutation must be longer than 2 characters")]
         public string salutation { get; set; }
+
         [Required(ErrorMessage = "First Name must not be empty")]
         [MinLength(3, ErrorMessage = "First Name must be longer than 2 characters")]
         public string firstName { get; set; }
+
         [Required(ErrorMessage = "Last Name must not be empty")]
         [MinLength(3, ErrorMessage = "Last Name must be longer than 2 characters")]
         public string lastName { get; set; }
+
         public string _displayName;
         public string displayName
         {
@@ -37,25 +40,16 @@ namespace ContactManager.Models.DTO
             }
 
         }
+
         private DateTime? _birthDate;
         public DateTime? birthDate
         {
-            get
-            {
-                if (!_birthDate.HasValue)
-                {
-                    return null;
-                }
-                return _birthDate;
-            }
-            set
-            {
-                _birthDate = value;
-            }
+            get { return _birthDate; }
+            set { _birthDate = value; }
         }
+
         private bool _notifyHasBirthdaySoon = false;
         [JsonIgnore]
-
         public bool notifyHasBirthdaySoon
         {
             get
@@ -79,6 +73,7 @@ namespace ContactManager.Models.DTO
             }
 
         }
+
         [Required(ErrorMessage = "Email must not be empty")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string email { get; set; }

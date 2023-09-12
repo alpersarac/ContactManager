@@ -43,27 +43,27 @@ namespace ContactManager.API.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateContact([FromBody] Contact contact)
+        public async Task<IActionResult> CreateContact([FromBody] ContactDTO contactDTO)
         {
             
             if (ModelState.IsValid)
             {
-                bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contact.email);
+                bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmailForCreation(contactDTO.email);
                 if (isEmailExists) 
                 {
                     await _contactManagerLoggerRepository.AddLog(LogImportance.Warning, "Email is in use.");
                     return BadRequest("Email is in use, it must be unique email address.");
                 }
-                bool result = await _unitOfWork.ContactManager.Create(contact);
+                bool result = await _unitOfWork.ContactManager.Create(contactDTO);
                 if (result)
                 {
-                    return Ok(contact);
+                    return Ok(contactDTO);
                 }
 
                 return BadRequest();
 
             }
-            return BadRequest("Contact could not created.");
+            return BadRequest("Contact could not created. Please check parameters");
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(int id)
@@ -80,7 +80,7 @@ namespace ContactManager.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateContact([FromBody] ContactDTO contactDTO, int id)
         {
-            bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmail(contactDTO.email);
+            bool isEmailExists = await _unitOfWork.ContactManager.CheckExistingEmailForUpdate(contactDTO.email, id);
             if (isEmailExists)
             {
                 await _contactManagerLoggerRepository.AddLog(LogImportance.Warning, "Email is in use.");

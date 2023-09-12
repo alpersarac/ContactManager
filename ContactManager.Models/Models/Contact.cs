@@ -18,9 +18,11 @@ namespace ContactManager.Models.Models
         [Required(ErrorMessage = "First Name must not be empty")]
         [MinLength(3, ErrorMessage = "First Name must be longer than 2 characters")]
         public string firstName { get; set; }
+
         [Required(ErrorMessage = "Last Name must not be empty")]
         [MinLength(3, ErrorMessage = "Last Name must be longer than 2 characters")]
         public string lastName { get; set; }
+
         public string _displayName;
         public string displayName 
         {
@@ -38,25 +40,18 @@ namespace ContactManager.Models.Models
             }
 
         }
+
         private DateTime? _birthDate;
         public DateTime? birthDate
         {
-            get
-            {
-                if (!_birthDate.HasValue)
-                {
-                    return null;
-                }
-                return _birthDate;
-            }
-            set
-            {
-                _birthDate = value;
-            }
+            get { return _birthDate; }
+            set { _birthDate = value; }
         }
 
         public DateTime creationTimestamp { get; set; }
+       
         public DateTime lastChangeTimestamp { get; set; }
+
         private bool _notifyHasBirthdaySoon=false;
         public bool notifyHasBirthdaySoon
         {
@@ -81,6 +76,7 @@ namespace ContactManager.Models.Models
             }
 
         }
+
         [Required(ErrorMessage ="Email must not be empty")]
         [EmailAddress(ErrorMessage ="Invalid email address")]
         public string email { get; set; }

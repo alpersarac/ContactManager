@@ -11,7 +11,9 @@ namespace ContactManager.DataAccess.Repository.IRepository
     public interface IContactManagerRepository : IRepository<Contact>
     {
         //any specific method for contact manager
+        Task<bool> Create(ContactDTO obj);
         Task<bool> Update(ContactDTO obj, int id);
-        Task<bool> CheckExistingEmail(string email);
+        Task<bool> CheckExistingEmailForUpdate(string email, int id);
+        Task<bool> CheckExistingEmailForCreation(string email);
     }
 }
