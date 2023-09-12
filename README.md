@@ -1,6 +1,23 @@
+
 # Contact Manager REST API
 
 This is a code-first Contact Manager REST API developed in C# .NET 6. To run the application properly, please follow the instructions below.
+
+# Project Update - 12th of September, 2023
+
+## Overview
+This update introduces some important changes and enhancements to our project. Please find the details below.
+
+## Changes
+
+### Mistake Fix
+- Previously, there was a mistake that prevented users from updating their email addresses using their own email addresses. This issue has been resolved, and now users can successfully update their email information.
+
+### Enhancement: Creating and Updating a Contact
+- To improve the process of creating and updating contact information, we have made the following enhancement:
+  - Instead of requiring individual parameters such as Id, creationTimestamp, lastChangeTimestamp, and notifyHasBirthdaySoon, we now use the `ContactDTO` class. This change simplifies the process by allowing users to provide only the desired fields when working with contacts.
+
+I believe that these changes will enhance the usability and flexibility of the project. Thank you for your continued support and feedback!
 
 ## Getting Started
 
